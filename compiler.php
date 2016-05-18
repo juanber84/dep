@@ -21,6 +21,7 @@ $compiler = new Compiler(__DIR__);
 $compiler->addIndexFile('console.php');
 
 $compiler->addFile('vendor/autoload.php');
+$compiler->addFile('settings.yml');
 $compiler->addDirectory('vendor/composer', '!*.php');
 $compiler->addDirectory('vendor/symfony', '!*.php');
 $compiler->addDirectory('src', '!*.php');
