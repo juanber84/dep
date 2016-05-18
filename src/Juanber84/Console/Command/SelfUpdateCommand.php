@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Yaml\Parser;
 
 class SelfUpdateCommand extends Command
 {
@@ -28,10 +27,7 @@ class SelfUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-
-        $yaml = new Parser();
-        $settings = $yaml->parse(file_get_contents('./settings.yml'));
-        $actualVersion = $settings['version'];
+        $actualVersion = getVersion();
 
         $url = 'https://api.github.com/repos/juanber84/dep/releases/latest';
 

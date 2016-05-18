@@ -14,7 +14,8 @@
     "autoload" : {
         "psr-0" : {
             "Juanber84" : "src/"
-        }
+        },
+        "files": ["settings.php"]
     },
     "autoload-dev" : {
         "psr-0" : {
