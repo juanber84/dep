@@ -15,7 +15,6 @@ function getVersion()
 ';
 
 file_put_contents('./settings.php', $content);
-echo "asd"; exit;
 
 $compiler = new Compiler(__DIR__);
 
