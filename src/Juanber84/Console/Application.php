@@ -30,20 +30,11 @@ class Application extends BaseApplication
 
     public function getLongVersion()
     {
-        if ('UNKNOWN' !== $this->getName()) {
-            if ('UNKNOWN' !== $this->getVersion()) {
-                return sprintf('<info>%s</info> version <comment>%s</comment>', $this->getName(), $this->getVersion());
-            }
-
-            return sprintf('<info>%s</info>', $this->getName());
-        }
-
         $actualVersion = (new ApplicationService())->currentTimeVersion();
         $latestVersion = (new GitHubService())->latestTimeVersion();
 
         $message = '';
-        if ($actualVersion < $latestVersion)
-        {
+        if ($actualVersion < $latestVersion) {
             $message .= "\n <bg=yellow;fg=black;options=bold>New release available. Please execute self-update to install.</>\n";
         }
 
