@@ -14,3 +14,4 @@ This generate a final dep.phar file
 sudo mv dep.phar /usr/local/bin/dep
 chmod +x /usr/local/bin/dep
 ```
+
