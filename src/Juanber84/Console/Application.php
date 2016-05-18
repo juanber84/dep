@@ -4,11 +4,10 @@ namespace Juanber84\Console;
 
 use Juanber84\Console\Command\BatchProcessCommand;
 use Symfony\Component\Console\Application as BaseApplication;
+use Symfony\Component\Yaml\Parser;
 
 class Application extends BaseApplication
 {
-    private $name = "Dep";
-    private $version = "0.0.1";
 
     private static $logo = "
   .----------------.  .----------------.  .----------------.
@@ -38,6 +37,10 @@ class Application extends BaseApplication
             return sprintf('<info>%s</info>', $this->getName());
         }
 
-        return '<info>Console Tool 23233</info>';
+        $yaml = new Parser();
+        $settings = $yaml->parse(file_get_contents('./settings.yml'));
+        $actualVersion = $settings['version'];
+
+        return '<info>Automatic deploy tool </info>'.$actualVersion;
     }
 }

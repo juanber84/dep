@@ -6,7 +6,6 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Yaml\Parser;
 
 class SelfUpdateCommand extends Command
@@ -61,8 +60,11 @@ class SelfUpdateCommand extends Command
             $content = file_get_contents("./newdep.phar");
             file_put_contents("dep.phar", $content);
             unlink('./newdep.phar');
+
+            $output->writeln('<info>Ok. Latest release was installed.</info>');
+        } else {
+            $output->writeln('<info>Lastest release is installed.</info>');
         }
 
-        $output->writeln('<info>Ok</info>');
     }
 }
