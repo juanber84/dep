@@ -16,6 +16,11 @@
             "Juanber84" : "src/"
         }
     },
+    "autoload-dev" : {
+        "psr-0" : {
+            "" : "tests/"
+        }
+    },
     "require": {
         "symfony/console": "^3.0",
         "symfony/finder": "^3.0",
