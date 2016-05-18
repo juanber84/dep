@@ -5,8 +5,9 @@ require __DIR__ . '/vendor/autoload.php';
 use Secondtruth\Compiler\Compiler;
 use Symfony\Component\Yaml\Dumper;
 
+date_default_timezone_set('UTC');
 $array = array(
-    'version' => time() + (60 * 5) // Add 5 minutes to prevent problems with same release
+    'version' => time() + (60 * 30) // Add 30 minutes to prevent problems with same release
 );
 
 $dumper = new Dumper();
