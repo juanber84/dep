@@ -2,6 +2,8 @@
 
 namespace Juanber84\Console\Command;
 
+use Juanber84\Services\ApplicationService;
+use Juanber84\Services\GitHubService;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -27,21 +29,9 @@ class SelfUpdateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $actualVersion = getVersion();
-
-        $url = 'https://api.github.com/repos/juanber84/dep/releases/latest';
-
-        $ch = curl_init();
-        $timeout = 5;
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-        curl_setopt($ch,CURLOPT_USERAGENT,'Awesome-Octocat-App');
-        $data = curl_exec($ch);
-        curl_close($ch);
-
-        $latestRelease = json_decode($data, true);
-        $latestVersion = strtotime($latestRelease['created_at']);
+        $actualVersion = (new ApplicationService())->currentTimeVersion();
+        $latestRelease = (new GitHubService())->lastestRelease();
+        $latestVersion = (new GitHubService())->lastestTimeVersion();
 
         if ($actualVersion < $latestVersion)
         {
