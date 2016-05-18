@@ -11,15 +11,6 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class SelfUpdateCommand extends Command
 {
-
-    const DEVELOP = 'develop';
-    const STAGING = 'staging';
-    const QUALITY = 'quality';
-    const MASTER  = 'master';
-
-    const DIRECTORY = '.dep';
-    const DB = 'db.json';
-
     protected function configure()
     {
         $this
@@ -51,6 +42,5 @@ class SelfUpdateCommand extends Command
         } else {
             $output->writeln('<info>Lastest release is installed.</info>');
         }
-
     }
 }
