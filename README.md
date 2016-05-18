@@ -1,4 +1,4 @@
-# DEP - Automatic deploy tool
+# DEP - Automatic deploy tool  [![Build Status](https://travis-ci.org/juanber84/dep.svg?branch=master)](https://travis-ci.org/juanber84/dep)
 
 ### Compiler process
 
