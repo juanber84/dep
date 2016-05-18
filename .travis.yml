@@ -6,8 +6,6 @@ php:
 script:
 - ./vendor/bin/phpunit -c ./phpunit.xml
 - php ./compiler.php
-- ls -la
-- pwd
 
 before_script: composer install
 
