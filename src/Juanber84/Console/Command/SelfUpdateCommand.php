@@ -21,8 +21,8 @@ class SelfUpdateCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $actualVersion = (new ApplicationService())->currentTimeVersion();
-        $latestRelease = (new GitHubService())->lastestRelease();
-        $latestVersion = (new GitHubService())->lastestTimeVersion();
+        $latestRelease = (new GitHubService())->latestRelease();
+        $latestVersion = (new GitHubService())->latestTimeVersion();
 
         if ($actualVersion < $latestVersion)
         {
@@ -31,7 +31,7 @@ class SelfUpdateCommand extends Command
             if (!$helper->ask($input, $output, $question)) {
                 return;
             }
-            $content = file_get_contents($latestRelease['assets'][0]['browser_download_url']);
+            $content = file_get_contents((new GitHubService())->latestBrowserDownloadUrl());
             file_put_contents("./newdep.phar", $content);
             unlink('./dep.phar');
             $content = file_get_contents("./newdep.phar");

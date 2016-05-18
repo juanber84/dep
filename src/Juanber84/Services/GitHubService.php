@@ -6,7 +6,7 @@ class GitHubService
 {
     const URL = 'https://api.github.com/repos/juanber84/dep/releases/latest';
 
-    public function lastestRelease()
+    public function latestRelease()
     {
         $ch = curl_init();
         $timeout = 5;
@@ -22,11 +22,19 @@ class GitHubService
         return $latestRelease;
     }
 
-    public function lastestTimeVersion()
+    public function latestTimeVersion()
     {
-        $latestRelease = $this->lastestRelease();
+        $latestRelease = $this->latestRelease();
         $latestVersion = strtotime($latestRelease['created_at']);
 
         return $latestVersion;
+    }
+
+    public function latestBrowserDownloadUrl()
+    {
+        $latestRelease = $this->latestRelease();
+        $latestBrowserDownloadUrl = $latestRelease['assets'][0]['browser_download_url'];
+
+        return $latestBrowserDownloadUrl;
     }
 }

@@ -39,7 +39,7 @@ class Application extends BaseApplication
         }
 
         $actualVersion = (new ApplicationService())->currentTimeVersion();
-        $latestVersion = (new GitHubService())->lastestTimeVersion();
+        $latestVersion = (new GitHubService())->latestTimeVersion();
 
         $message = '';
         if ($actualVersion < $latestVersion)
