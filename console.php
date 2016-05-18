@@ -1,0 +1,12 @@
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+$console = new \Juanber84\Console\Application();
+$console->addCommands(array(
+    new \Juanber84\Console\Command\ShowProjectsCommand(),
+    new \Juanber84\Console\Command\AddProjectsCommand(),
+    new \Juanber84\Console\Command\RemoveProjectsCommand(),
+    new \Juanber84\Console\Command\DeployProjectsCommand()
+));
+$console->run();
