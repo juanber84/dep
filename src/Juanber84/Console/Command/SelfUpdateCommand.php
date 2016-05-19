@@ -23,7 +23,7 @@ class SelfUpdateCommand extends Command
         parent::__construct();
 
         $this->applicationService = (is_null($applicationService)) ? (new ApplicationService()) : $applicationService;
-        $this->gitHubService = (is_null($gitHubService)) ? (new ApplicationService()) : $gitHubService;
+        $this->gitHubService = (is_null($gitHubService)) ? (new GitHubService()) : $gitHubService;
         $this->downloadService = (is_null($downloadService)) ? (new DownloadService()) : $downloadService;
     }
 

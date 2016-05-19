@@ -3,7 +3,6 @@
 use Juanber84\Console\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
-use Mockery as m;
 
 class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 {
@@ -47,9 +46,15 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $downloadService->method('download')
             ->will($this->returnValue(true));
 
+        $question = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $question->expects($this->at(0))
+            ->method('ask')
+            ->will($this->returnValue(true));
+
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
         $command = $application->find('self-update');
+        $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
 
@@ -74,9 +79,15 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $downloadService->method('download')
             ->will($this->returnValue(false));
 
+        $question = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $question->expects($this->at(0))
+            ->method('ask')
+            ->will($this->returnValue(true));
+
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
         $command = $application->find('self-update');
+        $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
 
