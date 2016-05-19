@@ -39,14 +39,14 @@ class SelfUpdateCommand extends Command
         $currentVersion = $this->applicationService->currentTimeVersion();
         $latestVersion = $this->gitHubService->latestTimeVersion();
 
-        if ($currentVersion < $latestVersion)
+        if (true || $currentVersion < $latestVersion)
         {
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question>', true);
             if (!$helper->ask($input, $output, $question)) {
                 return;
             }
-
+            
             if ($this->downloadService->download($this->gitHubService->latestBrowserDownloadUrl())){
                 $output->writeln('<info> OK. Latest release was installed.</info>');
             } else {

@@ -13,11 +13,10 @@ class DownloadService
             $content = file_get_contents("./newdep.phar");
             file_put_contents("dep.phar", $content);
             unlink('./newdep.phar');
-
-            return true;
         } catch (\Exception $e){
-
             return false;
         }
+
+        return true;
     }
 }
