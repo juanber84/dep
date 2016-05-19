@@ -1,4 +1,5 @@
-# DEP - Automatic deploy tool  [![Build Status](https://travis-ci.org/juanber84/dep.svg?branch=master)](https://travis-ci.org/juanber84/dep)
+# DEP - Automatic deploy tool
+[![Build Status](https://travis-ci.org/juanber84/dep.svg?branch=master)](https://travis-ci.org/juanber84/dep) [![Coverage Status](https://coveralls.io/repos/github/juanber84/dep/badge.svg?branch=master)](https://coveralls.io/github/juanber84/dep?branch=master)
 
 ### Compiler process
 

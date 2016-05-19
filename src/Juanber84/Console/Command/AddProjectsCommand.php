@@ -10,12 +10,6 @@ use Symfony\Component\Console\Question\Question;
 
 class AddProjectsCommand extends Command
 {
-
-    const DEVELOP = 'develop';
-    const STAGING = 'staging';
-    const QUALITY = 'quality';
-    const MASTER  = 'master';
-
     const DIRECTORY = '.dep';
     const DB = 'db.json';
 
