@@ -9,11 +9,8 @@ use Symfony\Component\Console\Helper\Table;
 
 class ShowProjectsCommand extends Command
 {
-
-    const DEVELOP = 'develop';
-    const STAGING = 'staging';
-    const QUALITY = 'quality';
-    const MASTER  = 'master';
+    const COMMAND_NAME = 'show-projects';
+    const COMMAND_DESC = 'List Deploy Projects.';
 
     const DIRECTORY = '.dep';
     const DB = 'db.json';
@@ -21,8 +18,8 @@ class ShowProjectsCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('show-projects')
-            ->setDescription('List Deploy Projects');
+            ->setName(self::COMMAND_NAME)
+            ->setDescription(self::COMMAND_DESC);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
