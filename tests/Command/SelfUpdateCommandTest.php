@@ -18,6 +18,7 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
+
         $this->assertRegExp('/'.SelfUpdateCommandText::OK_CURRENT.'/', $commandTester->getDisplay());
     }
 
