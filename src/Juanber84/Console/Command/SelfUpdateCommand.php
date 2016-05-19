@@ -39,8 +39,8 @@ class SelfUpdateCommand extends Command
         $currentVersion = $this->applicationService->currentTimeVersion();
         $latestVersion = $this->gitHubService->latestTimeVersion();
 
-        if ($currentVersion < $latestVersion)
-        {
+        if ($currentVersion < $latestVersion) {
+            
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question>', true);
             if (!$helper->ask($input, $output, $question)) {
