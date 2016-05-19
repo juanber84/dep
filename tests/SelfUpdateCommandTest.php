@@ -8,16 +8,8 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 {
     public function testCurrentVersionEarliest()
     {
-        $applicationService = $this->getMockBuilder('Juanber84\Services\ApplicationService')
-            ->getMock();
-        $applicationService
-            ->method('currentTimeVersion')
-            ->will($this->returnValue(125));
-
-        $gitHubService = $this->getMockBuilder('\\Juanber84\\Services\\GitHubService')
-            ->getMock();
-        $gitHubService->method('latestTimeVersion')
-            ->will($this->returnValue(120));
+        $applicationService = $this->getMockApplicationService(125);
+        $gitHubService = $this->getMockGitHubService(120);
 
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService));
@@ -30,29 +22,14 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 
     public function testCurrentVersionLatestDownloadTrue()
     {
-        $applicationService = $this->getMockBuilder('Juanber84\Services\ApplicationService')
-            ->getMock();
-        $applicationService
-            ->method('currentTimeVersion')
-            ->will($this->returnValue(120));
-
-        $gitHubService = $this->getMockBuilder('\\Juanber84\\Services\\GitHubService')
-            ->getMock();
-        $gitHubService->method('latestTimeVersion')
-            ->will($this->returnValue(125));
-
-        $downloadService = $this->getMockBuilder('\\Juanber84\\Services\\DownloadService')
-            ->getMock();
-        $downloadService->method('download')
-            ->will($this->returnValue(true));
-
-        $question = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
-        $question->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(true));
+        $applicationService = $this->getMockApplicationService(120);
+        $gitHubService = $this->getMockGitHubService(125);
+        $downloadService = $this->getMockDownloadService(true);
+        $question = $this->getMockQuestionHelper(true);
 
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
+        
         $command = $application->find('self-update');
         $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
@@ -63,29 +40,14 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 
     public function testCurrentVersionLatestDownloadFalse()
     {
-        $applicationService = $this->getMockBuilder('Juanber84\Services\ApplicationService')
-            ->getMock();
-        $applicationService
-            ->method('currentTimeVersion')
-            ->will($this->returnValue(120));
-
-        $gitHubService = $this->getMockBuilder('\\Juanber84\\Services\\GitHubService')
-            ->getMock();
-        $gitHubService->method('latestTimeVersion')
-            ->will($this->returnValue(125));
-
-        $downloadService = $this->getMockBuilder('\\Juanber84\\Services\\DownloadService')
-            ->getMock();
-        $downloadService->method('download')
-            ->will($this->returnValue(false));
-
-        $question = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
-        $question->expects($this->at(0))
-            ->method('ask')
-            ->will($this->returnValue(true));
+        $applicationService = $this->getMockApplicationService(120);
+        $gitHubService = $this->getMockGitHubService(125);
+        $downloadService = $this->getMockDownloadService(false);
+        $question = $this->getMockQuestionHelper(true);
 
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
+
         $command = $application->find('self-update');
         $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
@@ -94,4 +56,44 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/KO. Error./', $commandTester->getDisplay());
     }
 
+    private function getMockApplicationService($valueReturn)
+    {
+        $applicationService = $this->getMockBuilder('Juanber84\Services\ApplicationService')
+            ->getMock();
+        $applicationService
+            ->method('currentTimeVersion')
+            ->will($this->returnValue($valueReturn));
+
+        return $applicationService;
+    }
+
+    private function getMockGitHubService($valueReturn)
+    {
+        $gitHubService = $this->getMockBuilder('\\Juanber84\\Services\\GitHubService')
+            ->getMock();
+        $gitHubService->method('latestTimeVersion')
+            ->will($this->returnValue($valueReturn));
+
+        return $gitHubService;
+    }
+
+    private function getMockDownloadService($valueReturn)
+    {
+        $downloadService = $this->getMockBuilder('\\Juanber84\\Services\\DownloadService')
+            ->getMock();
+        $downloadService->method('download')
+            ->will($this->returnValue($valueReturn));
+
+        return $downloadService;
+    }
+
+    private function getMockQuestionHelper($valueReturn)
+    {
+        $question = $this->getMock('Symfony\Component\Console\Helper\QuestionHelper', array('ask'));
+        $question->expects($this->at(0))
+            ->method('ask')
+            ->will($this->returnValue($valueReturn));
+
+        return $question;
+    }
 }
