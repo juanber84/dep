@@ -14,6 +14,7 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 class SelfUpdateCommand extends Command
 {
     const COMMAND_NAME = 'self-update';
+    const COMMAND_DESC = 'Update Dep application to last release.';
 
     private $applicationService;
 
@@ -34,7 +35,7 @@ class SelfUpdateCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
-            ->setDescription('Update Dep application to last release.');
+            ->setDescription(self::COMMAND_DESC);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
