@@ -5,6 +5,7 @@ namespace Juanber84\Console\Command;
 use Juanber84\Services\ApplicationService;
 use Juanber84\Services\DownloadService;
 use Juanber84\Services\GitHubService;
+use Juanber84\Texts\SelfUpdateCommandText;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,6 +13,8 @@ use Symfony\Component\Console\Question\ConfirmationQuestion;
 
 class SelfUpdateCommand extends Command
 {
+    const COMMAND_NAME = 'self-update';
+
     private $applicationService;
 
     private $gitHubService;
@@ -30,7 +33,7 @@ class SelfUpdateCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('self-update')
+            ->setName(self::COMMAND_NAME)
             ->setDescription('Update Dep application to last release.');
     }
 
@@ -40,7 +43,7 @@ class SelfUpdateCommand extends Command
         $latestVersion = $this->gitHubService->latestTimeVersion();
 
         if ($currentVersion < $latestVersion) {
-            
+
             $helper = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question>', true);
             if (!$helper->ask($input, $output, $question)) {
@@ -48,13 +51,13 @@ class SelfUpdateCommand extends Command
             }
 
             if ($this->downloadService->download($this->gitHubService->latestBrowserDownloadUrl())){
-                $output->writeln('<info> OK. Latest release was installed.</info>');
+                $output->writeln('<info> '.SelfUpdateCommandText::OK_INSTALLED.'</info>');
             } else {
-                $output->writeln('<info> KO. Error.</info>');
+                $output->writeln('<info> '.SelfUpdateCommandText::KO_INSTALLED.'</info>');
             }
 
         } else {
-            $output->writeln('<info> Lastest release is installed.</info>');
+            $output->writeln('<info> '.SelfUpdateCommandText::OK_CURRENT.'</info>');
         }
     }
 }

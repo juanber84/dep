@@ -3,6 +3,7 @@
 use Juanber84\Console\Command\SelfUpdateCommand;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Tester\CommandTester;
+use Juanber84\Texts\SelfUpdateCommandText;
 
 class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 {
@@ -14,10 +15,10 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService));
 
-        $command = $application->find('self-update');
+        $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
-        $this->assertRegExp('/Lastest release is installed./', $commandTester->getDisplay());
+        $this->assertRegExp('/'.SelfUpdateCommandText::OK_CURRENT.'/', $commandTester->getDisplay());
     }
 
     public function testCurrentVersionLatestDownloadTrue()
@@ -29,13 +30,13 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
-        
-        $command = $application->find('self-update');
+
+        $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
         $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertRegExp('/OK. Latest release was installed./', $commandTester->getDisplay());
+        $this->assertRegExp('/'.SelfUpdateCommandText::OK_INSTALLED.'/', $commandTester->getDisplay());
     }
 
     public function testCurrentVersionLatestDownloadFalse()
@@ -48,12 +49,12 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $application = new Application();
         $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
 
-        $command = $application->find('self-update');
+        $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
         $command->getHelperSet()->set($question, 'question');
         $commandTester = new CommandTester($command);
         $commandTester->execute(array('command' => $command->getName()));
 
-        $this->assertRegExp('/KO. Error./', $commandTester->getDisplay());
+        $this->assertRegExp('/'.SelfUpdateCommandText::KO_INSTALLED.'/', $commandTester->getDisplay());
     }
 
     private function getMockApplicationService($valueReturn)
@@ -69,7 +70,7 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 
     private function getMockGitHubService($valueReturn)
     {
-        $gitHubService = $this->getMockBuilder('\\Juanber84\\Services\\GitHubService')
+        $gitHubService = $this->getMockBuilder('\Juanber84\Services\GitHubService')
             ->getMock();
         $gitHubService->method('latestTimeVersion')
             ->will($this->returnValue($valueReturn));
@@ -79,7 +80,7 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 
     private function getMockDownloadService($valueReturn)
     {
-        $downloadService = $this->getMockBuilder('\\Juanber84\\Services\\DownloadService')
+        $downloadService = $this->getMockBuilder('\Juanber84\Services\DownloadService')
             ->getMock();
         $downloadService->method('download')
             ->will($this->returnValue($valueReturn));
