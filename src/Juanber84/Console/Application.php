@@ -11,6 +11,8 @@ use Symfony\Component\Console\Application as BaseApplication;
 class Application extends BaseApplication
 {
 
+    const MESSAGE_UPDATE = "New release available. Please execute";
+
     private static $logo = "
   .----------------.  .----------------.  .----------------.
 | .--------------. || .--------------. || .--------------. |
@@ -21,9 +23,21 @@ class Application extends BaseApplication
 | |  _| |___.' / | || |  _| |___/ |  | || |   _| |_      | |
 | | |________.'  | || | |_________|  | || |  |_____|     | |
 | |              | || |              | || |              | |
-| '--------------' || '--------------' || '--------------' |
+| '--------------' || '-------------- ' || '--------------' |
  '----------------'  '----------------'  '----------------'
 ";
+
+    private $applicationService;
+
+    private $gitHubService;
+
+    public function __construct(ApplicationService $applicationService, GitHubService $gitHubService)
+    {
+        parent::__construct();
+        $this->applicationService = $applicationService;
+        $this->gitHubService = $gitHubService;
+    }
+
     public function getHelp()
     {
         return self::$logo . parent::getHelp();
@@ -31,12 +45,12 @@ class Application extends BaseApplication
 
     public function getLongVersion()
     {
-        $actualVersion = (new ApplicationService())->currentTimeVersion();
-        $latestVersion = (new GitHubService())->latestTimeVersion();
+        $actualVersion = $this->applicationService->currentTimeVersion();
+        $latestVersion = $this->gitHubService->latestTimeVersion();
 
         $message = '';
         if ($actualVersion < $latestVersion) {
-            $message .= "\n <bg=yellow;fg=black;options=bold>New release available. Please execute ".SelfUpdateCommand::COMMAND_NAME." to install.</>\n";
+            $message .= "\n <bg=yellow;fg=black;options=bold>".self::MESSAGE_UPDATE." ".SelfUpdateCommand::COMMAND_NAME." to install.</>\n";
         }
 
         $message .="\n <info>Automatic deploy tool </info>".$actualVersion;

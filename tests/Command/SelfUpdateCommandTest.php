@@ -7,13 +7,14 @@ use Juanber84\Texts\SelfUpdateCommandText;
 
 class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
 {
-    public function testCurrentVersionEarliest()
+    public function testCurrentVersionUpdated()
     {
         $applicationService = $this->getMockApplicationService(125);
         $gitHubService = $this->getMockGitHubService(120);
+        $downloadService = $this->getMockDownloadService(true);
 
         $application = new Application();
-        $application->add(new SelfUpdateCommand($applicationService, $gitHubService));
+        $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
 
         $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
         $commandTester = new CommandTester($command);
@@ -22,7 +23,7 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/'.SelfUpdateCommandText::OK_CURRENT.'/', $commandTester->getDisplay());
     }
 
-    public function testCurrentVersionLatestDownloadTrue()
+    public function testCurrentVersionOupdatedDownloadTrue()
     {
         $applicationService = $this->getMockApplicationService(120);
         $gitHubService = $this->getMockGitHubService(125);
@@ -40,7 +41,7 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/'.SelfUpdateCommandText::OK_INSTALLED.'/', $commandTester->getDisplay());
     }
 
-    public function testCurrentVersionLatestDownloadFalse()
+    public function testCurrentVersionOupdatedDownloadFalse()
     {
         $applicationService = $this->getMockApplicationService(120);
         $gitHubService = $this->getMockGitHubService(125);

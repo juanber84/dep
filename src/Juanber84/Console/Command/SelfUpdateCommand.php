@@ -22,7 +22,7 @@ class SelfUpdateCommand extends Command
 
     private $downloadService;
 
-    public function __construct(ApplicationService $applicationService = null, GitHubService $gitHubService = null, DownloadService $downloadService = null)
+    public function __construct(ApplicationService $applicationService, GitHubService $gitHubService, DownloadService $downloadService)
     {
         parent::__construct();
 
