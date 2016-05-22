@@ -22,13 +22,13 @@ class SelfUpdateCommand extends Command
 
     private $downloadService;
 
-    public function __construct($applicationService = null, $gitHubService = null, $downloadService = null)
+    public function __construct(ApplicationService $applicationService = null, GitHubService $gitHubService = null, DownloadService $downloadService = null)
     {
         parent::__construct();
 
-        $this->applicationService = (is_null($applicationService)) ? (new ApplicationService()) : $applicationService;
-        $this->gitHubService = (is_null($gitHubService)) ? (new GitHubService()) : $gitHubService;
-        $this->downloadService = (is_null($downloadService)) ? (new DownloadService()) : $downloadService;
+        $this->applicationService = $applicationService;
+        $this->gitHubService = $gitHubService;
+        $this->downloadService = $downloadService;
     }
 
     protected function configure()
