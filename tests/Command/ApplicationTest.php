@@ -11,6 +11,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $application = new Application($applicationService, $gitHubService);
         $this->assertRegexp('/'.Application::MESSAGE_UPDATE.'/', $application->getLongVersion());
+        $this->assertRegexp('/'.Application::MESSAGE_NAME.'/', $application->getLongVersion());
     }
 
     public function testCurrentVersionUpdated()
@@ -20,6 +21,7 @@ class ApplicationTest extends PHPUnit_Framework_TestCase
 
         $application = new Application($applicationService, $gitHubService);
         $this->assertNotContains(Application::MESSAGE_UPDATE, $application->getLongVersion());
+        $this->assertRegexp('/'.Application::MESSAGE_NAME.'/', $application->getLongVersion());
     }
 
     public function testApplicationSuccess()

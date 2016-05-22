@@ -11,6 +11,7 @@ use Symfony\Component\Console\Application as BaseApplication;
 class Application extends BaseApplication
 {
 
+    const MESSAGE_NAME = "Automatic deploy tool";
     const MESSAGE_UPDATE = "New release available. Please execute";
 
     private static $logo = "
@@ -34,6 +35,7 @@ class Application extends BaseApplication
     public function __construct(ApplicationService $applicationService, GitHubService $gitHubService)
     {
         parent::__construct();
+
         $this->applicationService = $applicationService;
         $this->gitHubService = $gitHubService;
     }
@@ -53,7 +55,7 @@ class Application extends BaseApplication
             $message .= "\n <bg=yellow;fg=black;options=bold>".self::MESSAGE_UPDATE." ".SelfUpdateCommand::COMMAND_NAME." to install.</>\n";
         }
 
-        $message .="\n <info>Automatic deploy tool </info>".$actualVersion;
+        $message .="\n <info>".self::MESSAGE_NAME." </info>".$actualVersion;
 
         return $message;
     }
