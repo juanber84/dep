@@ -2,5 +2,5 @@
 
 function getVersion()
 {
-    return;
+    return strtotime('10 September 2000');
 }
