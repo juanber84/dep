@@ -10,14 +10,17 @@ use Symfony\Component\Console\Question\Question;
 
 class AddProjectsCommand extends Command
 {
+    const COMMAND_NAME = 'add-project';
+    const COMMAND_DESC = 'Add Deploy Project.';
+
     const DIRECTORY = '.dep';
     const DB = 'db.json';
 
     protected function configure()
     {
         $this
-            ->setName('add-project')
-            ->setDescription('Add Deploy Project');
+            ->setName(self::COMMAND_NAME)
+            ->setDescription(self::COMMAND_DESC);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
