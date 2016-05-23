@@ -9,7 +9,7 @@ script:
   - php ./compiler.php
 
 after_success:
-  - travis_retry php vendor/bin/coveralls
+ - php vendor/bin/coveralls -v
 
 before_script:
   - composer require satooshi/php-coveralls
