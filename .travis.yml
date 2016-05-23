@@ -1,16 +1,21 @@
 language: php
 
 php:
-- '5.6'
+  - '5.6'
 
 script:
-- ./vendor/bin/phpunit -c ./phpunit.xml
-- php ./compiler.php
+  - mkdir -p build/logs
+  - ./vendor/bin/phpunit -c ./phpunit.xml  --coverage-clover build/logs/clover.xml
+  - php ./compiler.php
+
+after_success:
+  - travis_retry php vendor/bin/coveralls
 
 before_script:
-- composer dumpautoload
-- composer install
-- date
+  - composer require satooshi/php-coveralls
+  - composer dumpautoload
+  - composer install
+  - date
 
 deploy:
   provider: releases
