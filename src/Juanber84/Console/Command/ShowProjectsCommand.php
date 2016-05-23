@@ -2,6 +2,8 @@
 
 namespace Juanber84\Console\Command;
 
+use Juanber84\Services\DatabaseService;
+use Juanber84\Texts\ShowProjectsCommandText;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -12,8 +14,14 @@ class ShowProjectsCommand extends Command
     const COMMAND_NAME = 'show-projects';
     const COMMAND_DESC = 'List Deploy Projects.';
 
-    const DIRECTORY = '.dep';
-    const DB = 'db.json';
+    private $databaseService;
+
+    public function __construct(DatabaseService $databaseService)
+    {
+        parent::__construct();
+
+        $this->databaseService = $databaseService;
+    }
 
     protected function configure()
     {
@@ -24,11 +32,10 @@ class ShowProjectsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $db = file_get_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB);
-        $jsonDb = json_decode($db,true);
+        $jsonDb = $this->databaseService->getProjects();
         if (is_null($jsonDb) || count($jsonDb) == 0) {
             $output->writeln('');
-            $output->writeln('<info>0 projects configurated</info>');
+            $output->writeln('<info>'.ShowProjectsCommandText::OK_0_PROJECTS.'</info>');
         } else {
             $tableData = [];
             foreach ($jsonDb as $k =>$v) {
