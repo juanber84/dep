@@ -38,11 +38,11 @@ class AddProjectsCommand extends Command
             return;
         }
 
-        if (!file_exists($_SERVER['HOME'].'/'.self::DIRECTORY)) {
-            mkdir($_SERVER['HOME'].'/'.self::DIRECTORY, 0777, true);
+        if (!file_exists(getenv("HOME").'/'.self::DIRECTORY)) {
+            mkdir(getenv("HOME").'/'.self::DIRECTORY, 0777, true);
         }
 
-        $db = file_get_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB);
+        $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
         $jsonDb = json_decode($db,true);
         if (is_null($jsonDb)) $jsonDb = array();
 
@@ -53,7 +53,7 @@ class AddProjectsCommand extends Command
             }
         }
         $jsonDb[$nameOfProject] = getcwd();
-        file_put_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB, json_encode($jsonDb));
+        file_put_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB, json_encode($jsonDb));
 
         $output->writeln('');
         $output->writeln('<info>Ok</info>');

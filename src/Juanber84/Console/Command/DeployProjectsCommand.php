@@ -58,7 +58,7 @@ class DeployProjectsCommand extends Command
             } while (empty($branchOfProject) || !in_array($branchOfProject, $validBranchs));
         }
 
-        $db = file_get_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB);
+        $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
         $jsonDb = json_decode($db,true);
 
         if (is_null($jsonDb)) {
