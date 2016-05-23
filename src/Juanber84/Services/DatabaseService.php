@@ -9,7 +9,7 @@ class DatabaseService
 
     public function getProjects()
     {
-        $db = file_get_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB);
+        $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
         $jsonDb = json_decode($db,true);
 
         return $jsonDb;
