@@ -7,51 +7,53 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Juanber84\Services\DatabaseService;
 
 class RemoveProjectsCommand extends Command
 {
+    const COMMAND_NAME = 'remove-project';
+    const COMMAND_DESC = 'Remove Deploy Project.';
 
-    const DEVELOP = 'develop';
-    const STAGING = 'staging';
-    const QUALITY = 'quality';
-    const MASTER  = 'master';
+    private $databaseService;
 
-    const DIRECTORY = '.dep';
-    const DB = 'db.json';
+    public function __construct(DatabaseService $databaseService)
+    {
+        parent::__construct();
+
+        $this->databaseService = $databaseService;
+    }
 
     protected function configure()
     {
         $this
-            ->setName('remove-project')
-            ->setDescription('Remove Deploy Project');
+            ->setName(self::COMMAND_NAME)
+            ->setDescription(self::COMMAND_DESC);
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
-
-        // Project question
         $question = new Question('<question>What is the project key?</question>: ');
         do {
             $nameOfProject = trim($helper->ask($input, $output, $question));
         } while (empty($nameOfProject));
 
-        $db = file_get_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB);
-        $jsonDb = json_decode($db,true);
+        $jsonDb = $this->databaseService->getProjects();
 
         if (is_null($jsonDb)) {
             $output->writeln('');
             $output->writeln('<info>0 projects configurated</info>');
         } else {
-            $question = new ConfirmationQuestion('Continue with this action?<question>Y/n</question>', false);
+            $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question> ', true);
             if (!$helper->ask($input, $output, $question)) {
-                return;
+                return $output->writeln('<info>kO. Operation aborted.</info>');
             }
-            unset($jsonDb[$nameOfProject]);
-            file_put_contents($_SERVER['HOME'].'/'.self::DIRECTORY.'/'.self::DB, json_encode($jsonDb));
-        }
 
-        $output->writeln('');
-        $output->writeln('<info>Ok</info>');
+            if ($this->databaseService->removeProject($nameOfProject)) {
+                $output->writeln('<info>Ok. Project removed.</info>');
+            } else {
+                $output->writeln('<info>KO. Project not exist.</info>');
+            }
+        }
     }
 }

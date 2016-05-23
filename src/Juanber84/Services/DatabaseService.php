@@ -14,4 +14,16 @@ class DatabaseService
 
         return $jsonDb;
     }
+
+    public function removeProject($keyProject)
+    {
+        $jsonDb = $this->getProjects();
+
+        if (isset($jsonDb[$keyProject])){
+            unset($jsonDb[$keyProject]);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
