@@ -1,5 +1,5 @@
 # DEP - Automatic deploy tool (beta)
-[![Build Status](https://travis-ci.org/juanber84/dep.svg?branch=master)](https://travis-ci.org/juanber84/dep) [![Coverage Status](https://coveralls.io/repos/github/juanber84/dep/badge.svg?branch=master)](https://coveralls.io/github/juanber84/dep?branch=master)[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/juanber84/dep/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/juanber84/dep/?branch=master)
+[![Build Status](https://travis-ci.org/juanber84/dep.svg?branch=master)](https://travis-ci.org/juanber84/dep) [![Coverage Status](https://coveralls.io/repos/github/juanber84/dep/badge.svg?branch=master)](https://coveralls.io/github/juanber84/dep?branch=master) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/juanber84/dep/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/juanber84/dep/?branch=master)
 
 ### Compiler process
 
