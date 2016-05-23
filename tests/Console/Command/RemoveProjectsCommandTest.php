@@ -7,6 +7,25 @@ use Juanber84\Texts\RemoveProjectsCommandText;
 
 class RemoveProjectsCommandTest extends PHPUnit_Framework_TestCase
 {
+
+    public function testNoProjectsConfiguratedNoNameProject()
+    {
+        $questionNameProject = $this->getMockQuestionConfirmHelper('p1');
+        $databaseService = $this->getMockDatabaseService(null);
+
+        $application = new Application();
+        $application->add(new RemoveProjectsCommand($databaseService));
+
+        $command = $application->find(RemoveProjectsCommand::COMMAND_NAME);
+        $command->getHelperSet()->set($questionNameProject, 'question');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array(
+            'command' => $command->getName()
+        ));
+
+        $this->assertRegExp('/'.RemoveProjectsCommandText::OK_0_PROJECTS.'/', $commandTester->getDisplay());
+    }
+
     public function testNoProjectsConfigurated()
     {
         $databaseService = $this->getMockDatabaseService(null);
