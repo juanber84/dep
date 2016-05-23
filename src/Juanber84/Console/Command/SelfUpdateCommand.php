@@ -46,9 +46,9 @@ class SelfUpdateCommand extends Command
         if ($currentVersion < $latestVersion) {
 
             $helper = $this->getHelper('question');
-            $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question>', true);
+            $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question> ', true);
             if (!$helper->ask($input, $output, $question)) {
-                return;
+                return $output->writeln('<info> '.SelfUpdateCommandText::OK_CANCEL.'</info>');
             }
 
             if ($this->downloadService->download($this->gitHubService->latestBrowserDownloadUrl())){

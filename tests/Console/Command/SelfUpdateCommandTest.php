@@ -23,6 +23,24 @@ class SelfUpdateCommandTest extends PHPUnit_Framework_TestCase
         $this->assertRegExp('/'.SelfUpdateCommandText::OK_CURRENT.'/', $commandTester->getDisplay());
     }
 
+    public function testCurrentVersionOupdatedDownloadTrueFalseQuestion()
+    {
+        $applicationService = $this->getMockApplicationService(120);
+        $gitHubService = $this->getMockGitHubService(125);
+        $downloadService = $this->getMockDownloadService(true);
+        $question = $this->getMockQuestionHelper(false);
+
+        $application = new Application();
+        $application->add(new SelfUpdateCommand($applicationService, $gitHubService, $downloadService));
+
+        $command = $application->find(SelfUpdateCommand::COMMAND_NAME);
+        $command->getHelperSet()->set($question, 'question');
+        $commandTester = new CommandTester($command);
+        $commandTester->execute(array('command' => $command->getName()));
+
+        $this->assertRegExp('/'.SelfUpdateCommandText::OK_CANCEL.'/', $commandTester->getDisplay());
+    }
+
     public function testCurrentVersionOupdatedDownloadTrue()
     {
         $applicationService = $this->getMockApplicationService(120);
