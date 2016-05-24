@@ -16,3 +16,14 @@ sudo mv dep.phar /usr/local/bin/dep
 chmod +x /usr/local/bin/dep
 ```
 
+Maintainers
+-----------
+
+* Juan Berzal [@juanber84](https://github.com/juanber84)
+
+See also the list of [contributors](https://github.com/juanber84/dep/graphs/contributors) who participated in this project.
+
+
+License
+-------
+Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
