@@ -15,6 +15,7 @@ class DownloadService
             $content = file_get_contents($pathExec."/newdep");
             file_put_contents($pathExec."/dep", $content);
             unlink($pathExec.'/newdep');
+            chmod($pathExec."/dep",0755);
         } catch (\Exception $e){
             return false;
         }
