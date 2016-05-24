@@ -11,6 +11,9 @@ class DatabaseService
     {
         $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
         $jsonDb = json_decode($db,true);
+        if (!is_array($jsonDb)) {
+            throw new \RuntimeException('$jsonDb must be an array.');
+        }
 
         return $jsonDb;
     }
