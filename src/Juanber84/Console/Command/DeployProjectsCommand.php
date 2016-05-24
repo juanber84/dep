@@ -84,7 +84,7 @@ class DeployProjectsCommand extends Command
                     'git pull',
                     'git checkout ' .$final,
                     'git merge '.$merge,
-                    'git push',
+                    'git push --progress 2>&1',
                     'git checkout develop',
                 ];
 
@@ -105,11 +105,11 @@ class DeployProjectsCommand extends Command
                     $command = new \mikehaertl\shellcommand\Command($t);
                     if ($command->execute()) {
                         $table->addRow([
-                            $command->getOutput(), $command->getExitCode()
+                            $command->getOutput(false), $command->getExitCode()
                         ]);
                     } else {
                         $table->addRow([
-                            $command->getError(), $command->getExitCode()
+                            $command->getError(false), $command->getExitCode()
                         ]);
                     }
                     usleep(300000);
