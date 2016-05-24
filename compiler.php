@@ -23,6 +23,7 @@ $compiler->addIndexFile('console.php');
 $compiler->addFile('vendor/autoload.php');
 $compiler->addFile('settings.php');
 $compiler->addDirectory('vendor/composer', '!*.php');
+$compiler->addDirectory('vendor/mikehaertl', '!*.php');
 $compiler->addDirectory('vendor/symfony', '!*.php');
 $compiler->addDirectory('src', '!*.php');
 

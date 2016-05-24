@@ -7,6 +7,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Helper\ProgressBar;
+use Symfony\Component\Console\Helper\Table;
 
 class DeployProjectsCommand extends Command
 {
@@ -74,13 +76,67 @@ class DeployProjectsCommand extends Command
                         $final = $v;
                     }
                 }
+
+                chdir($jsonDb[$nameOfProject]);
+
+                $pipetask = [
+                    'git checkout ' .$merge,
+                    'git pull',
+                    'git checkout ' .$final,
+                    'git merge '.$merge,
+                    'git push',
+                    'git checkout develop',
+                ];
+
+                $progressBar = new ProgressBar($output, count($pipetask));
+                $progressBar->setBarCharacter('<fg=magenta>=</>');
+                $progressBar->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");
+                //$progressBar->setFormat('verbose');
+                $progressBar->setBarWidth(50);
+
+                $table = new Table($output);
+
+                foreach ($pipetask as $t){
+                    //$console = "";
+                    //exec($t,$console);
+                    $table->addRow([
+                        sprintf('<info>%s</info>', $t), 'Status code'
+                    ]);
+                    $command = new \mikehaertl\shellcommand\Command($t);
+                    if ($command->execute()) {
+                        $table->addRow([
+                            $command->getOutput(), $command->getExitCode()
+                        ]);
+                    } else {
+                        $table->addRow([
+                            $command->getError(), $command->getExitCode()
+                        ]);
+                    }
+                    usleep(300000);
+                    $progressBar->setMessage($t);
+                    $progressBar->advance();
+                }
+                $progressBar->setMessage("");
+
+                $progressBar->finish();
+                $output->writeln('');
+                $table->render();
+
+ exit;
                 $task = 'cd '.$jsonDb[$nameOfProject];
-                $task .= ' && git checkout ' .$merge;
-                $task .= ' && git pull';
-                $task .= ' && git checkout ' .$final;
-                $task .= ' && git merge '.$merge;
-                $task .= ' && git push';
-                $task .= ' && git checkout develop';
+                echo $console = shell_exec($task);
+                echo "\n";
+                $task = 'pwd';
+                echo $console = shell_exec($task);
+                echo "\n";
+
+                $task = 'pwd';
+                echo $console = shell_exec($task);
+                echo "\n";
+                exit;
+                exit;
+
+
                 echo $task."\n";
                 echo $console = shell_exec($task);
             }
