@@ -95,23 +95,40 @@ class DeployProjectsCommand extends Command
                 $progressBar->setBarWidth(50);
 
                 $table = new Table($output);
+                $table->setHeaders(array('<fg=white>Command</>', '<fg=white>Result</>'));
 
+                $exitCode = 0;
                 foreach ($pipetask as $t){
-                    //$console = "";
-                    //exec($t,$console);
-                    $table->addRow([
-                        sprintf('<info>%s</info>', $t), 'Status code'
-                    ]);
-                    $command = new \mikehaertl\shellcommand\Command($t);
-                    if ($command->execute()) {
-                        $table->addRow([
-                            $command->getOutput(false), $command->getExitCode()
-                        ]);
+                    if ($exitCode == 0){
+                        $command = new \mikehaertl\shellcommand\Command($t);
+                        if ($command->execute()) {
+                            $message = $command->getOutput();
+                            $message = trim(preg_replace('/\t+/', '', $message));
+                            $message = trim(preg_replace('/Ma\n+/', '', $message));
+                            $message = trim(preg_replace('/a\n+/', '', $message));
+                            $exitCode = $command->getExitCode();
+                        } else {
+                            $message = $command->getError();
+                            $message = trim(preg_replace('/\t+/', '', $message));
+                            $message = trim(preg_replace('/Ma\n+/', '', $message));
+                            $message = trim(preg_replace('/a\n+/', '', $message));
+                            $exitCode = $command->getExitCode();
+                        }
                     } else {
-                        $table->addRow([
-                            $command->getError(false), $command->getExitCode()
-                        ]);
+                        $message = '';
+                        $exitCode = -1;
                     }
+
+                    if ($exitCode == 0){
+                        $exitCodeMessage = '<fg=green>SUCCESS</>';
+                    } elseif ($exitCode == 1){
+                        $exitCodeMessage = '<fg=red>FAILED</>';
+                    } elseif ($exitCode == -1){
+                        $exitCodeMessage = '<fg=blue>ABORTED</>';
+                    }
+
+                    $command = '<fg=magenta>'.$t.'</>'."\n".$message;
+                    $table->addRow([$command, $exitCodeMessage]);
                     usleep(300000);
                     $progressBar->setMessage($t);
                     $progressBar->advance();
@@ -119,31 +136,12 @@ class DeployProjectsCommand extends Command
                 $progressBar->setMessage("");
 
                 $progressBar->finish();
+
                 $output->writeln('');
                 $table->render();
-
- exit;
-                $task = 'cd '.$jsonDb[$nameOfProject];
-                echo $console = shell_exec($task);
-                echo "\n";
-                $task = 'pwd';
-                echo $console = shell_exec($task);
-                echo "\n";
-
-                $task = 'pwd';
-                echo $console = shell_exec($task);
-                echo "\n";
-                exit;
-                exit;
-
-
-                echo $task."\n";
-                echo $console = shell_exec($task);
             }
 
         }
 
-        $output->writeln('');
-        $output->writeln('<info>Ok</info>');
     }
 }
