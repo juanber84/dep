@@ -12,7 +12,7 @@ $databaseService = new \Juanber84\Services\DatabaseService();
 $console = new \Juanber84\Console\Application($applicationService, $gitHubService);
 $console->addCommands(array(
     new \Juanber84\Console\Command\ShowProjectsCommand($databaseService),
-    new \Juanber84\Console\Command\AddProjectsCommand(),
+    new \Juanber84\Console\Command\AddProjectsCommand($databaseService),
     new \Juanber84\Console\Command\RemoveProjectsCommand($databaseService),
     new \Juanber84\Console\Command\DeployProjectsCommand(),
     new \Juanber84\Console\Command\SelfUpdateCommand(

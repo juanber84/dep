@@ -59,13 +59,13 @@ class RemoveProjectsCommand extends Command
             $helperConfirm = $this->getHelper('question');
             $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question> ', true);
             if (!$helperConfirm->ask($input, $output, $question)) {
-                return $output->writeln('<info>'.RemoveProjectsCommandText::KO_ABORTED.'</info>');
+                return $output->writeln("<fg=blue;>".RemoveProjectsCommandText::KO_ABORTED.'</>');
             }
 
             if ($this->databaseService->removeProject($nameOfProject)) {
-                $output->writeln('<info>'.RemoveProjectsCommandText::OK_REMOVED.'</info>');
+                $output->writeln("<info>".RemoveProjectsCommandText::OK_REMOVED.'</info>');
             } else {
-                $output->writeln('<info>'.RemoveProjectsCommandText::KO_EXIST.'</info>');
+                $output->writeln("<error>".RemoveProjectsCommandText::KO_EXIST.'</error>');
             }
         }
     }
