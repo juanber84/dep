@@ -127,7 +127,10 @@ class DeployProjectsCommand extends Command
                         $exitCodeMessage = '<fg=blue>ABORTED</>';
                     }
 
-                    $command = '<fg=magenta>'.$t.'</>'."\n".$message;
+                    $command = '<fg=magenta>'.$t.'</>';
+                    if (strlen(trim($message))>0){
+                        $command .= $command."\n".$message;
+                    }
                     $table->addRow([$command, $exitCodeMessage]);
                     usleep(300000);
                     $progressBar->setMessage($t);
