@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
 use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Input\InputArgument;
 
 class AddProjectsCommand extends Command
 {
@@ -30,17 +31,25 @@ class AddProjectsCommand extends Command
     {
         $this
             ->setName(self::COMMAND_NAME)
-            ->setDescription(self::COMMAND_DESC);
+            ->setDescription(self::COMMAND_DESC)
+            ->addArgument(
+                'project',
+                InputArgument::OPTIONAL,
+                'What\'s the name of project?'
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
 
-        $question = new Question('<question>What is the project key?</question>: ');
-        do {
-            $nameOfProject = trim($helper->ask($input, $output, $question));
-        } while (empty($nameOfProject));
+        $nameOfProject = $input->getArgument('project');
+        if (!$nameOfProject) {
+            $question = new Question('<question>What is the project key?</question>: ');
+            do {
+                $nameOfProject = trim($helper->ask($input, $output, $question));
+            } while (empty($nameOfProject));
+        }
 
         $question = new ConfirmationQuestion('Continue with this action? <info>Y/n</info> ', true);
         if (!$helper->ask($input, $output, $question)) {
