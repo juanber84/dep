@@ -91,7 +91,6 @@ class DeployProjectsCommand extends Command
                 $progressBar = new ProgressBar($output, count($pipetask));
                 $progressBar->setBarCharacter('<fg=magenta>=</>');
                 $progressBar->setFormat("%message%\n %current%/%max% [%bar%] %percent:3s%%");
-                //$progressBar->setFormat('verbose');
                 $progressBar->setBarWidth(50);
 
                 $table = new Table($output);
