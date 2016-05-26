@@ -105,12 +105,14 @@ class DeployProjectsCommand extends Command
                             $message = trim(preg_replace('/\t+/', '', $message));
                             $message = trim(preg_replace('/Ma\n+/', '', $message));
                             $message = trim(preg_replace('/a\n+/', '', $message));
+                            $message = trim(preg_replace('|', '', $message));
                             $exitCode = $command->getExitCode();
                         } else {
                             $message = $command->getError();
                             $message = trim(preg_replace('/\t+/', '', $message));
                             $message = trim(preg_replace('/Ma\n+/', '', $message));
                             $message = trim(preg_replace('/a\n+/', '', $message));
+                            $message = trim(preg_replace('|', '', $message));
                             $exitCode = $command->getExitCode();
                         }
                     } else {
@@ -128,7 +130,7 @@ class DeployProjectsCommand extends Command
 
                     $command = '<fg=magenta>'.$t.'</>';
                     if (strlen(trim($message))>0){
-                        $command .= $command."\n".$message;
+                        $command .= "\n".$message;
                     }
                     $table->addRow([$command, $exitCodeMessage]);
                     usleep(300000);
