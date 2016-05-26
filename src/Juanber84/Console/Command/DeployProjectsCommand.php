@@ -105,14 +105,14 @@ class DeployProjectsCommand extends Command
                             $message = trim(preg_replace('/\t+/', '', $message));
                             $message = trim(preg_replace('/Ma\n+/', '', $message));
                             $message = trim(preg_replace('/a\n+/', '', $message));
-                            $message = trim(preg_replace('|', '', $message));
+                            $message = trim(preg_replace('/|/', '', $message));
                             $exitCode = $command->getExitCode();
                         } else {
                             $message = $command->getError();
                             $message = trim(preg_replace('/\t+/', '', $message));
                             $message = trim(preg_replace('/Ma\n+/', '', $message));
                             $message = trim(preg_replace('/a\n+/', '', $message));
-                            $message = trim(preg_replace('|', '', $message));
+                            $message = trim(preg_replace('/|/', '', $message));
                             $exitCode = $command->getExitCode();
                         }
                     } else {
