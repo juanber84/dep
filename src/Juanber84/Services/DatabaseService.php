@@ -62,6 +62,7 @@ class DatabaseService
             try {
                 mkdir(getenv("HOME").'/'.self::DIRECTORY, 0777, true);
             } catch (\Exception $e) {
+                throw new \Exception('Problem generation database');
             }
             file_put_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB, json_encode('{[]}'));
         }
