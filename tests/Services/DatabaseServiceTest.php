@@ -20,10 +20,11 @@ class DatabaseServiceTest extends PHPUnit_Framework_TestCase
         $d = new \Juanber84\Services\DatabaseService();
 
         $reflection = new \ReflectionClass(get_class($d));
-        $method = $reflection->getMethod('generateDatabase');
-        $method->setAccessible(true);
+        $methodGenerateDatabase = $reflection->getMethod('generateDatabase');
+        $methodGenerateDatabase->setAccessible(true);
         $methodDatabasePath = $reflection->getMethod('getDatabasePath');
         $methodDatabasePath->setAccessible(true);
+        $methodGenerateDatabase->invoke($d);
 
         $this->assertFileExists($methodDatabasePath->invoke($d));
     }

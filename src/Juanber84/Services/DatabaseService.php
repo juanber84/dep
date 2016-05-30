@@ -52,7 +52,7 @@ class DatabaseService
         } catch (\Exception $e){
             return false;
         }
-        
+
         return true;
     }
 
@@ -64,7 +64,7 @@ class DatabaseService
             } catch (\Exception $e) {
                 throw new \Exception('Problem generation database');
             }
-            file_put_contents($this->getDatabasePath(), json_encode('{[]}'));
+            file_put_contents($this->getDatabasePath(), json_encode(array()));
         }
     }
 
