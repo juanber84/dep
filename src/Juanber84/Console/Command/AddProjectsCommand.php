@@ -12,6 +12,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class AddProjectsCommand extends Command
 {
+    use NameProjectTrait;
+
     const COMMAND_NAME = 'add-project';
     const COMMAND_DESC = 'Add Deploy Project.';
 
@@ -42,14 +44,9 @@ class AddProjectsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
-
         $nameOfProject = $input->getArgument('project');
-        if (!$nameOfProject) {
-            $question = new Question('<question>What is the project key?</question>: ');
-            do {
-                $nameOfProject = trim($helper->ask($input, $output, $question));
-            } while (empty($nameOfProject));
-        }
+
+        $nameOfProject = $this->getNameOfProject($input, $output, $helper, $nameOfProject);
 
         $question = new ConfirmationQuestion('Continue with this action? <info>Y/n</info> ', true);
         if (!$helper->ask($input, $output, $question)) {

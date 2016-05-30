@@ -14,6 +14,8 @@ use Symfony\Component\Console\Input\InputArgument;
 
 class RemoveProjectsCommand extends Command
 {
+    use NameProjectTrait;
+
     const COMMAND_NAME = 'remove-project';
     const COMMAND_DESC = 'Remove Deploy Project.';
 
@@ -41,14 +43,9 @@ class RemoveProjectsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $helper = $this->getHelper('question');
-
         $nameOfProject = $input->getArgument('project');
-        if (!$nameOfProject) {
-            $question = new Question('<question>What is the project key?</question>: ');
-            do {
-                $nameOfProject = trim($helper->ask($input, $output, $question));
-            } while (empty($nameOfProject));
-        }
+
+        $nameOfProject = $this->getNameOfProject($input, $output, $helper, $nameOfProject);
 
         $jsonDb = $this->databaseService->getProjects();
 

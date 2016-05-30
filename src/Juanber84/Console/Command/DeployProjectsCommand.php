@@ -13,6 +13,8 @@ use Symfony\Component\Console\Helper\Table;
 class DeployProjectsCommand extends Command
 {
 
+    use NameProjectTrait;
+
     const DEVELOP = 'develop';
     const STAGING = 'staging';
     const QUALITY = 'quality';
@@ -46,12 +48,7 @@ class DeployProjectsCommand extends Command
         $branchOfProject = $input->getArgument('branch');
         $helper = $this->getHelper('question');
 
-        if (!$nameOfProject) {
-            $question = new Question('<question>What is the project key?</question>: ');
-            do {
-                $nameOfProject = trim($helper->ask($input, $output, $question));
-            } while (empty($nameOfProject));
-        }
+        $nameOfProject = $this->getNameOfProject($input, $output, $helper, $nameOfProject);
 
         if (!$branchOfProject) {
             $question = new Question('<question>What is the branch to deploy?</question>: ');
