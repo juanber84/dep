@@ -11,7 +11,7 @@ class DatabaseService
     {
         $this->generateDatabase();
         $db = file_get_contents($this->getDatabasePath());
-        
+
         $jsonDb = json_decode($db,true);
         if (!is_array($jsonDb)) {
             throw new \RuntimeException('$jsonDb must be an array.');
@@ -69,5 +69,4 @@ class DatabaseService
     {
         return getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB;
     }
-
 }

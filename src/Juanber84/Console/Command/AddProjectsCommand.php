@@ -3,6 +3,7 @@
 namespace Juanber84\Console\Command;
 
 use Juanber84\Services\DatabaseService;
+use Juanber84\Texts\AddProjectsCommandText;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -50,21 +51,21 @@ class AddProjectsCommand extends Command
 
         $question = new ConfirmationQuestion('Continue with this action? <info>Y/n</info> ', true);
         if (!$helper->ask($input, $output, $question)) {
-            return;
+            return $output->writeln("<fg=blue;>".AddProjectsCommandText::KO_ABORTED.'</>');
         }
 
         $jsonDb = $this->databaseService->getProjects();
         if (array_key_exists($nameOfProject,$jsonDb)) {
             $question = new ConfirmationQuestion('<error>This project exist. Do you want override it?</error> <info>Y/n</info> ', false);
             if (!$helper->ask($input, $output, $question)) {
-                return;
+                return $output->writeln("<fg=blue;>".AddProjectsCommandText::KO_ABORTED.'</>');
             }
         }
 
         if ($this->databaseService->addProject($nameOfProject, getcwd())){
-            $output->writeln('<info>OK. Project added.</info>');
+            $output->writeln('<info>'.AddProjectsCommandText::OK_ADDED.'</info>');
         } else {
-            $output->writeln('<error>KO. Error</error>');
+            $output->writeln('<error>'.AddProjectsCommandText::KO_ERROR.'</error>');
         }
     }
 }
