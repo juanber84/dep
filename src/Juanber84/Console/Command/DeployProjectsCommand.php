@@ -97,6 +97,7 @@ class DeployProjectsCommand extends Command
                 $table->setHeaders(array('<fg=white>Command</>', '<fg=white>Result</>'));
 
                 $exitCode = 0;
+                $exitCodeMessage = "";
                 foreach ($pipetask as $t){
                     if ($exitCode == 0){
                         $command = new \mikehaertl\shellcommand\Command($t);
