@@ -14,7 +14,7 @@ class DatabaseService
             mkdir(getenv("HOME").'/'.self::DIRECTORY, 0777, true);
         }
 
-        $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
+        $db = file_get_contents($this->getDatabasePath());
         $jsonDb = json_decode($db,true);
         if (!is_array($jsonDb)) {
             throw new \RuntimeException('$jsonDb must be an array.');
@@ -31,7 +31,7 @@ class DatabaseService
         if (isset($jsonDb[$keyProject])){
             unset($jsonDb[$keyProject]);
             try {
-                file_put_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB, json_encode($jsonDb));
+                file_put_contents($this->getDatabasePath(), json_encode($jsonDb));
             } catch (\Exception $e){
                 return false;
             }
@@ -48,7 +48,7 @@ class DatabaseService
         $jsonDb[$keyProject] = $path;
 
         try {
-            file_put_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB, json_encode($jsonDb));
+            file_put_contents($this->getDatabasePath(), json_encode($jsonDb));
         } catch (\Exception $e){
             return false;
         }
@@ -64,8 +64,13 @@ class DatabaseService
             } catch (\Exception $e) {
                 throw new \Exception('Problem generation database');
             }
-            file_put_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB, json_encode('{[]}'));
+            file_put_contents($this->getDatabasePath(), json_encode('{[]}'));
         }
+    }
+
+    private function getDatabasePath()
+    {
+        return getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB;
     }
 
 }
