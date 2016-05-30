@@ -35,10 +35,10 @@ class DatabaseService
             } catch (\Exception $e){
                 return false;
             }
-            return true;
         } else {
             return false;
         }
+        return true;
     }
 
     public function addProject($keyProject, $path)
@@ -52,7 +52,7 @@ class DatabaseService
         } catch (\Exception $e){
             return false;
         }
-
+        
         return true;
     }
 
