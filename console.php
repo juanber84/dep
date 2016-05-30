@@ -14,7 +14,7 @@ $console->addCommands(array(
     new \Juanber84\Console\Command\ShowProjectsCommand($databaseService),
     new \Juanber84\Console\Command\AddProjectsCommand($databaseService),
     new \Juanber84\Console\Command\RemoveProjectsCommand($databaseService),
-    new \Juanber84\Console\Command\DeployProjectsCommand(),
+    new \Juanber84\Console\Command\DeployProjectsCommand($databaseService),
     new \Juanber84\Console\Command\SelfUpdateCommand(
         $applicationService, $gitHubService, $downloadService
     )

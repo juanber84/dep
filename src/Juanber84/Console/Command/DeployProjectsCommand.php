@@ -9,6 +9,7 @@ use Symfony\Component\Console\Question\Question;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Console\Helper\Table;
+use Juanber84\Services\DatabaseService;
 
 class DeployProjectsCommand extends Command
 {
@@ -20,14 +21,21 @@ class DeployProjectsCommand extends Command
     const QUALITY = 'quality';
     const MASTER  = 'master';
 
-    const DIRECTORY = '.dep';
-    const DB = 'db.json';
+    const COMMAND_NAME = 'deploy-project';
+    const COMMAND_DESC = 'Auto Deploy Project.';
+
+    public function __construct(DatabaseService $databaseService)
+    {
+        parent::__construct();
+
+        $this->databaseService = $databaseService;
+    }
 
     protected function configure()
     {
         $this
-            ->setName('deploy-project')
-            ->setDescription('Auto Deploy Project')
+            ->setName(self::COMMAND_NAME)
+            ->setDescription(self::COMMAND_DESC)
             ->addArgument(
                 'project',
                 InputArgument::OPTIONAL,
@@ -57,8 +65,7 @@ class DeployProjectsCommand extends Command
             } while (empty($branchOfProject) || !in_array($branchOfProject, $validBranchs));
         }
 
-        $db = file_get_contents(getenv("HOME").'/'.self::DIRECTORY.'/'.self::DB);
-        $jsonDb = json_decode($db,true);
+        $jsonDb = $this->databaseService->getProjects();
 
         if (is_null($jsonDb)) {
             $output->writeln('');
