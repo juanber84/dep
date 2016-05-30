@@ -54,10 +54,7 @@ class AddProjectsCommand extends Command
         $jsonDb = $this->databaseService->getProjects();
 
         if (array_key_exists($nameOfProject,$jsonDb)) {
-            $question = new ConfirmationQuestion('<error>This project exist. Do you want override it?</error> <info>Y/n</info> ', false);
-            if (!$helper->ask($input, $output, $question)) {
-                return $output->writeln("<fg=blue;>".AddProjectsCommandText::KO_ABORTED.'</>');
-            }
+            $this->confirmationProcess($input, $output, $helper, AddProjectsCommandText::KO_ABORTED, '<error>This project exist. Do you want override it?</error> <info>Y/n</info> ');
         }
 
         if ($this->databaseService->addProject($nameOfProject, getcwd())){
