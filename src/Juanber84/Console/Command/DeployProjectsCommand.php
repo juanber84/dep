@@ -24,6 +24,8 @@ class DeployProjectsCommand extends Command
     const COMMAND_NAME = 'deploy-project';
     const COMMAND_DESC = 'Auto Deploy Project.';
 
+    private $databaseService;
+
     public function __construct(DatabaseService $databaseService)
     {
         parent::__construct();
