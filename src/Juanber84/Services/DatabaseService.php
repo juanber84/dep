@@ -10,11 +10,8 @@ class DatabaseService
     public function getProjects()
     {
         $this->generateDatabase();
-        if (!file_exists(getenv("HOME").'/'.self::DIRECTORY)) {
-            mkdir(getenv("HOME").'/'.self::DIRECTORY, 0777, true);
-        }
-
         $db = file_get_contents($this->getDatabasePath());
+        
         $jsonDb = json_decode($db,true);
         if (!is_array($jsonDb)) {
             throw new \RuntimeException('$jsonDb must be an array.');
