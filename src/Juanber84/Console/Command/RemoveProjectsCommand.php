@@ -15,6 +15,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class RemoveProjectsCommand extends Command
 {
     use NameProjectTrait;
+    use ConfirmationProccessTrait;
 
     const COMMAND_NAME = 'remove-project';
     const COMMAND_DESC = 'Remove Deploy Project.';
@@ -54,10 +55,7 @@ class RemoveProjectsCommand extends Command
             $output->writeln('<info>'.RemoveProjectsCommandText::OK_0_PROJECTS.'</info>');
         } else {
             $helperConfirm = $this->getHelper('question');
-            $question = new ConfirmationQuestion('Continue with this action? <question>Y/n</question> ', true);
-            if (!$helperConfirm->ask($input, $output, $question)) {
-                return $output->writeln("<fg=blue;>".RemoveProjectsCommandText::KO_ABORTED.'</>');
-            }
+            $this->confirmationProcess($input, $output, $helperConfirm, RemoveProjectsCommandText::KO_ABORTED);
 
             if ($this->databaseService->removeProject($nameOfProject)) {
                 $output->writeln("<info>".RemoveProjectsCommandText::OK_REMOVED.'</info>');

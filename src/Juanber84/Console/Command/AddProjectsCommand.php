@@ -14,6 +14,7 @@ use Symfony\Component\Console\Input\InputArgument;
 class AddProjectsCommand extends Command
 {
     use NameProjectTrait;
+    use ConfirmationProccessTrait;
 
     const COMMAND_NAME = 'add-project';
     const COMMAND_DESC = 'Add Deploy Project.';
@@ -48,11 +49,8 @@ class AddProjectsCommand extends Command
         $nameOfProject = $input->getArgument('project');
 
         $nameOfProject = $this->getNameOfProject($input, $output, $helper, $nameOfProject);
+        $this->confirmationProcess($input, $output, $helper, AddProjectsCommandText::KO_ABORTED);
 
-        $question = new ConfirmationQuestion('Continue with this action? <info>Y/n</info> ', true);
-        if (!$helper->ask($input, $output, $question)) {
-            return $output->writeln("<fg=blue;>".AddProjectsCommandText::KO_ABORTED.'</>');
-        }
         $jsonDb = $this->databaseService->getProjects();
 
         if (array_key_exists($nameOfProject,$jsonDb)) {

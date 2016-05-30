@@ -11,7 +11,7 @@ class AddProjectsCommandTest extends PHPUnit_Framework_TestCase
     public function testFalseQuestionsDatabaseNull()
     {
         $questionNameProject = $this->getMockQuestionConfirmHelper(false);
-        $databaseService = $this->getMockDatabaseService(null);
+        $databaseService = $this->getMockDatabaseService(array());
 
         $application = new Application();
         $application->add(new AddProjectsCommand($databaseService));
