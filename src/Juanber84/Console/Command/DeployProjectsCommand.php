@@ -89,6 +89,7 @@ class DeployProjectsCommand extends Command
                     'git checkout ' .$merge,
                     'git pull',
                     'git checkout ' .$final,
+                    'git pull',
                     'git merge '.$merge,
                     'git push --progress 2>&1',
                     'git checkout develop',
